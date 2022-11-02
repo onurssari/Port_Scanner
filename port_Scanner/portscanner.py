@@ -1,11 +1,9 @@
 # SuperFastPython.com
 # scan a range of port numbers on host one by one
-from logging import exception
-from socket import AF_INET, gethostbyname
-from socket import SOCK_STREAM
-from socket import socket
+from socket import *
 from termcolor import cprint
 import pyfiglet
+import argparse
 import sys
 import getopt
  
@@ -29,12 +27,12 @@ def test_port_number(host, port):
 def port_scan(host, ports):
     print_blue(f'Scanning {host}...')
     print_blue("-"*50)
-
+    tgtIP = gethostbyname(host)
     # scan each port number
     try:
         for port in ports:
-            if test_port_number(host, port):
-                print_green(f'> {host}:{port} open')
+            if test_port_number(tgtIP, port):
+                print_green(f'> {tgtIP}:{port} open')
     except:
         print_red("Error")
  
@@ -42,22 +40,20 @@ def main(argv):
     # define host and port numbers to scan
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
     print_yellow(ascii_banner)
-    HOST="localhost"
-    PORT=65536
-    try:
-        opts, args = getopt.getopt(argv, "ip:p:",["ipaddress", "port"])
-    except:
-        print("Error")
-    for opt, arg in opts:
-        if opt in ['-ip', '--ipaddress']:
-            HOST = arg
-        elif opt in ['-p', '--port']:
-            PORT = int(arg)
-        else:
-            print_red('Wrong options try again')
-            
-        currentport=range(PORT)
-        port_scan(HOST,currentport)
+
+    parser = argparse.ArgumentParser(description='denemedeneme')
+    parser.add_argument('-i', '--ipaddress', help='specify target host')
+    parser.add_argument('-p', '--port', type=int, help='specify target port')
+    args = parser.parse_args()
+    print_blue(args.ipaddress)
+    print_blue(args.port)
+    HOST = args.ipaddress
+    PORT = args.port
+    if (HOST == None) | (PORT == None):
+            HOST="localhost"
+            PORT=65536
+    currentport=int(PORT)
+    port_scan(HOST,range(currentport))
    
    
 
