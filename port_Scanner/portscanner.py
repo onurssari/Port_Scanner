@@ -25,9 +25,21 @@ def test_port_number(host, port):
  
 # scan port numbers on a host
 def port_scan(host, ports):
+    tgtIP=host
     print_blue(f'Scanning {host}...')
     print_blue("-"*50)
-    tgtIP = gethostbyname(host)
+    try:
+            # getting ip addres for hostname on dns
+            if(host=='localhost'):
+              tgtIP = gethostbyname(host)
+            else:
+                tgtIP = gethostbyname(getfqdn(host))  
+    # if 
+    except gaierror:
+        print_red('Failed to get dns... trying on hostname()')
+    
+    print_green(f'Ip address is {tgtIP}')
+
     # scan each port number
     try:
         for port in ports:
@@ -41,14 +53,16 @@ def main(argv):
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
     print_yellow(ascii_banner)
 
-    parser = argparse.ArgumentParser(description='denemedeneme')
+    parser = argparse.ArgumentParser(description='this software scans networks for target hosts')
     parser.add_argument('-i', '--ipaddress', help='specify target host')
     parser.add_argument('-p', '--port', type=int, help='specify target port')
     args = parser.parse_args()
+    # Develop Stuff
     print_blue(args.ipaddress)
     print_blue(args.port)
     HOST = args.ipaddress
     PORT = args.port
+    # Default host and port options
     if (HOST == None) | (PORT == None):
             HOST="localhost"
             PORT=65536
