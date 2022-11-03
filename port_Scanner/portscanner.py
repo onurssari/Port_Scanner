@@ -5,13 +5,12 @@ from termcolor import cprint
 import pyfiglet
 import argparse
 import sys
-import getopt
  
 # returns True if a connection can be made, False otherwise
-def test_port_number(host, port):
+def test_port_number(host, port):   
     # create and configure the socket
     with socket(AF_INET, SOCK_STREAM) as sock:
-        # set a timeout of a few seconds
+        # set a timeout of a few seconds      
         sock.settimeout(3)
         # connecting may fail
         try:
@@ -52,16 +51,18 @@ def main(argv):
     # define host and port numbers to scan
     ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
     print_yellow(ascii_banner)
-
+    #parameter parsing code
     parser = argparse.ArgumentParser(description='this software scans networks for target hosts')
     parser.add_argument('-i', '--ipaddress', help='specify target host')
     parser.add_argument('-p', '--port', type=int, help='specify target port')
     args = parser.parse_args()
+
     # Develop Stuff
     print_blue(args.ipaddress)
     print_blue(args.port)
     HOST = args.ipaddress
     PORT = args.port
+
     # Default host and port options
     if (HOST == None) | (PORT == None):
             HOST="localhost"
