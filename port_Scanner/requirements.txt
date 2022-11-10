@@ -1,9 +1,9 @@
 asn1crypto==1.5.1
 cffi==1.15.1
-cryptography==2.5
+cryptography==3.3.2
 fernet==1.0.1
 myModule==1.0.0
-protobuf==4.21.5
+protobuf==4.21.6
 pyaes==1.6.1
 pycparser==2.21
 pyfiglet==0.8.post1
