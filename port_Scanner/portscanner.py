@@ -57,18 +57,20 @@ def main(argv):
     parser.add_argument('-p', '--port', type=int, help='specify target port')
     args = parser.parse_args()
 
+    # Default host and port options
+    HOST="localhost"
+    PORT=65536
+
     # Develop Stuff
     print_blue(args.ipaddress)
     print_blue(args.port)
-    HOST = args.ipaddress
-    PORT = args.port
 
-    # Default host and port options
-    if (HOST == None) | (PORT == None):
-            HOST="localhost"
-            PORT=65536
-    currentport=int(PORT)
-    port_scan(HOST,range(currentport))
+    # Varriable assign
+    HOST = args.ipaddress
+    PORT = int(args.port)
+    currentport=range(PORT)
+
+    port_scan(HOST,currentport)
    
    
 
